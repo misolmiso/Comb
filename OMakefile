@@ -1,0 +1,9 @@
+# .PHONY: all install clean
+.PHONY: clean test
+
+# CXXFLAGS +=
+# ASFLAGS +=
+# LDFLAGS +=
+# INCLUDES +=
+
+.SUBDIRS: Program

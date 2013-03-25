@@ -1,0 +1,22 @@
+SRCS = test_main base if
+TARGET = test$(EXE)
+
+INCLUDES += ../include/
+LDFLAGS += -lboost_unit_test_framework -static
+
+CXXFLAGS += -g
+
+
+.PHONY: bin
+
+clean:
+    rm -f *.o
+
+
+test: bin
+	./$(TARGET)$(EXE)
+
+
+bin: $(CXXProgram $(TARGET), $(SRCS))
+
+.DEFAULT: test

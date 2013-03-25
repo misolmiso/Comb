@@ -1,0 +1,7 @@
+#SRCS =
+#TARGET =
+
+#CXXFLAGS +=
+#LDFLAGS +=
+
+#.DEFAULT: $(StaticCXXLibrary $(TARGET), $(SRCS))
