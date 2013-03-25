@@ -5,6 +5,7 @@
 #include <boost/type_traits/is_convertible.hpp>
 
 #include "../Routine.hpp"
+#include "Unit.hpp"
 
 template <class T1, class T2>
 class Sequence;

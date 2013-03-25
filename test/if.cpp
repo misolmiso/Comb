@@ -1,6 +1,4 @@
-#include "routine/Sequence.hpp"
-#include "routine/If.hpp"
-#include "Program.hpp"
+#include "Comb.hpp"
 
 bool fun(bool a)
 {

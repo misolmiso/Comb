@@ -5,6 +5,7 @@
 #include <boost/call_traits.hpp>
 
 #include "../Routine.hpp"
+#include "Jump.hpp"
 
 template <typename Arg>
 class IfLink;

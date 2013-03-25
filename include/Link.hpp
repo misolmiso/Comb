@@ -17,6 +17,7 @@ class Contents;
 template <typename A>
 class Links;
 
+
 class Distance
 {
     bool is_meta_;
@@ -73,6 +74,7 @@ public:
             return link_index_;
         }
 };
+
 
 
 template <typename C>

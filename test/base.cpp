@@ -1,8 +1,7 @@
 #include <iostream>
 #include <string>
 
-#include "routine/Sequence.hpp"
-#include "Program.hpp"
+#include "Comb.hpp"
 
 #include <boost/test/unit_test.hpp>
 
