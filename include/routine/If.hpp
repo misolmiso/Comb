@@ -1,14 +1,7 @@
 #pragma once
 
-#include <boost/utility.hpp>
-#include <boost/function.hpp>
-#include <boost/call_traits.hpp>
-
 #include "../Routine.hpp"
 #include "Jump.hpp"
-
-template <typename Arg>
-class IfLink;
 
 template <typename Pred>
 class IfCondition_;
@@ -19,33 +12,6 @@ class If_;
 template <class R1, class R2, typename Pred>
 class IfElse_;
 
-template <typename Arg>
-class IfLink
-{
-    typedef boost::function<bool(typename Links<Arg>::func_param_type)> pred_type;
-        
-    pred_type pred_;
-
-    const int if_contents_size_;
-    const int if_links_size_;
-                
-public:
-    IfLink(
-        const pred_type& pred,
-        int contents_size,
-        int links_size
-        )
-        : pred_(pred), if_contents_size_(contents_size), if_links_size_(links_size)
-        {}
-
-        
-    Distance operator()(typename Links<Arg>::func_param_type a)
-        {
-            return pred_(a) ?
-                Distance(true, 0, 1) :
-                Distance(true, if_contents_size_, if_links_size_);
-        }
-};
 
 template <class Rt, class Rf, typename Pred>
 class IfElse_
@@ -78,9 +44,9 @@ public:
     template <typename A>
     inline void storeLink(Links<A> & cont) const
         {
-            cont.push_back(IfLink<A>(pred_, rt_.getContentsSize(), rf_.getLinksSize() + 2));
+            cont.push_back(ConditionJumpLink<A, true>(pred_, rt_.getContentsSize(), rf_.getLinksSize() + 1));
             rt_.storeLink(cont);
-            cont.push_back(JumpLink(true, rf_.getContentsSize(), rf_.getLinksSize() + 1));
+            cont.push_back(JumpLink(rf_.getContentsSize(), rf_.getLinksSize()));
             rf_.storeLink(cont);
         }
 };
@@ -119,7 +85,7 @@ public:
     template <typename A>
     inline void storeLink(Links<A> & cont) const
         {
-            cont.push_back(IfLink<A>(pred_, r_.getContentsSize(), r_.getLinksSize() + 1));
+            cont.push_back(ConditionJumpLink<A, true>(pred_, r_.getContentsSize(), r_.getLinksSize()));
             r_.storeLink(cont);
         }
 };

@@ -1,15 +1,16 @@
 #include "Comb.hpp"
 
-bool fun(bool a)
-{
-    return a;
-}
 
 using comb::lit;
 
 #include <boost/test/unit_test.hpp>
 
 BOOST_AUTO_TEST_SUITE(If)
+
+bool fun(bool a)
+{
+    return a;
+}
 
 BOOST_AUTO_TEST_CASE(single)
 {
@@ -137,10 +138,6 @@ BOOST_AUTO_TEST_CASE(nest)
     BOOST_CHECK_THROW(c3.advance(true), const char *);
 }
 
-BOOST_AUTO_TEST_SUITE_END() // If
-
-BOOST_AUTO_TEST_SUITE(IfElse)
-
 
 BOOST_AUTO_TEST_CASE(if_else)
 {
@@ -159,6 +156,18 @@ BOOST_AUTO_TEST_CASE(if_else)
             >> -10
             >> -15
             ]
+        >>
+        comb::if_(fun)
+        [
+            comb::entry_
+            >> 30
+            >> 45
+            ]
+        [
+            comb::entry_
+            >> -30
+            >> -45
+            ]
         >> 20;
     
     comb::Program<int,bool>::Counter c1(p.getCounter());
@@ -172,27 +181,17 @@ BOOST_AUTO_TEST_CASE(if_else)
     c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 15);
 
+    c1.advance(false);
+    BOOST_CHECK_EQUAL(*c1, -30);
+
+    c1.advance(false);
+    BOOST_CHECK_EQUAL(*c1, -45);
+
     c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 20);
 
     BOOST_CHECK_THROW(c1.advance(true), const char *);
-
-    comb::Program<int,bool>::Counter c2(p.getCounter());
-    
-    c2.advance(false);
-    BOOST_CHECK_EQUAL(*c2, 4);
-
-    c2.advance(false);
-    BOOST_CHECK_EQUAL(*c2, -10);
-
-    c2.advance(false);
-    BOOST_CHECK_EQUAL(*c2, -15);
-
-    c2.advance(false);
-    BOOST_CHECK_EQUAL(*c2, 20);
-
-    BOOST_CHECK_THROW(c2.advance(true), const char *);
 }
 
 
-BOOST_AUTO_TEST_SUITE_END() // IfElse
+BOOST_AUTO_TEST_SUITE_END() // If

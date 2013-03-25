@@ -4,20 +4,46 @@
 
 class JumpLink
 {
-    const bool is_meta_;
     const int contents_distance_;
     const int links_distance_;
     
 public:
-    JumpLink(bool is_meta, int contents_distance, int links_distance)
-        : is_meta_(is_meta),
-          contents_distance_(contents_distance),
+    JumpLink(int contents_distance, int links_distance)
+        : contents_distance_(contents_distance),
           links_distance_(links_distance)
         {}
     
     Distance operator()(...) const
         {
-            return Distance(is_meta_, contents_distance_, links_distance_);
+            return Distance(true, contents_distance_, links_distance_ + 1);
         }
 };
       
+template <typename Arg, bool InvertFlag>
+class ConditionJumpLink
+{
+    typedef boost::function<bool(typename Links<Arg>::func_param_type)> pred_type;
+        
+    pred_type pred_;
+
+    const int contents_size_;
+    const int links_size_;
+                
+public:
+    ConditionJumpLink(
+        const pred_type& pred,
+        int contents_size,
+        int links_size
+        )
+        : pred_(pred), contents_size_(contents_size), links_size_(links_size)
+        {}
+
+        
+    Distance operator()(typename Links<Arg>::func_param_type a)
+        {
+            return pred_(a) != InvertFlag ?
+                Distance(true, contents_size_, links_size_ + 1) :
+                Distance(true, 0, 1);
+        }
+};
+

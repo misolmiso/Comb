@@ -5,3 +5,4 @@
 #include "routine/Entry.hpp"
 #include "routine/Sequence.hpp"
 #include "routine/If.hpp"
+#include "routine/While.hpp"
