@@ -1,5 +1,9 @@
 #pragma once
 
+#include <boost/mpl/if.hpp>
+#include <boost/utility/enable_if.hpp>
+#include <boost/type_traits/is_convertible.hpp>
+
 #include "../Routine.hpp"
 
 template <class T1, class T2>
@@ -16,8 +20,8 @@ template <class F, class G>
 class Sequence
     : public Routine<Sequence<F, G> >
 {
-    const F & f_;
-    const G & g_;
+    const F f_;
+    const G g_;
 
 public:
     Sequence(const Routine<F> & rf, const Routine<G> & rg)
@@ -41,15 +45,46 @@ public:
         }
 };
 
-template <class T1, class T2>
+
+template <class T1, typename T2>
 Sequence<T1, T2>
-operator>>(
+genSequence(
     const Routine<T1>& f,
-    const Routine<T2>& g
+    const Routine<T2>& g,
+    typename boost::enable_if<boost::is_convertible<T2*, Routine<T2>*> >::type* = 0
     )
 {
     return Sequence<T1, T2>(f, g);
 }
+    
+template <class T1, typename D>
+Sequence<T1, Unit<D> >
+genSequence(
+    const Routine<T1>& f,
+    const D& g,
+    typename boost::disable_if<boost::is_convertible<D*, Routine<D>*> >::type* = 0
+    )
+{
+    return Sequence<T1, Unit<D> >(f, Unit<D>(g));
+}
+    
 
+
+template <class T1, typename D>
+Sequence<
+    T1,
+    typename boost::mpl::if_<
+        boost::is_convertible<D*, Routine<D>*>,
+        D,
+        Unit<D>
+        >::type
+    >
+operator>>(
+    const Routine<T1>& f,
+    const D& g
+    )
+{
+    return genSequence(f, g);
+}
 
 

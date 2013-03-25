@@ -82,8 +82,6 @@ public:
 };
       
 
-
-
 template <typename C>
 class Unit
     : public Routine<Unit<C> >,
@@ -109,6 +107,7 @@ public:
         }
 };    
 
+
 namespace comb
 {
     
@@ -118,4 +117,22 @@ namespace comb
         return Unit<C>(c);
     }
 
+    struct Entry
+        : public Routine<Entry>
+    {
+        Entry()
+            : Routine<Entry>(0, 0)
+            {}
+        
+        template <typename D>
+        inline void storeData(Contents<D> & cont) const
+            {}
+
+        template <typename A>
+        inline void storeLink(Links<A> & cont) const
+            {}
+    };
+
+    static const Entry entry_;
+    
 }

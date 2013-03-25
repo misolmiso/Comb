@@ -16,7 +16,7 @@ BOOST_AUTO_TEST_SUITE(If)
 BOOST_AUTO_TEST_CASE(single)
 {
     comb::Program<int, bool> p =
-        lit(4) >> comb::if_(fun)[lit(10)] >> lit(20);
+        comb::entry_ >> 4 >> comb::if_(fun)[lit(10)] >> 20;
     
     comb::Program<int,bool>::Counter c1(p.getCounter());
 
@@ -47,11 +47,16 @@ BOOST_AUTO_TEST_CASE(single)
 BOOST_AUTO_TEST_CASE(multi)
 {
     comb::Program<int, bool> p =
-        lit(4) >>
-        comb::if_(fun)[
-            lit(10) >> lit(15)
-            ] >>
-        lit(20);
+        comb::entry_ 
+        >> 4
+        >>
+        comb::if_(fun)
+        [
+            comb::entry_
+            >> 10
+            >> 15
+            ]
+        >> 20;
     
     comb::Program<int,bool>::Counter c1(p.getCounter());
 
@@ -83,20 +88,16 @@ BOOST_AUTO_TEST_CASE(multi)
 BOOST_AUTO_TEST_CASE(nest)
 {
     comb::Program<int, bool> p =
-        lit(4) >>
-        
+        comb::entry_ 
+        >> 4
+        >>
         comb::if_(fun)
         [
-            lit(10) >>
-            
-            comb::if_(fun)
-            [
-                lit(15)
-                ]
-            
-            ] >>
-        
-        lit(20);
+            comb::entry_
+            >> 10
+            >> comb::if_(fun)[lit(15)]
+            ]
+        >> 20;
     
     comb::Program<int,bool>::Counter c1(p.getCounter());
 
@@ -146,17 +147,21 @@ BOOST_AUTO_TEST_SUITE(IfElse)
 BOOST_AUTO_TEST_CASE(if_else)
 {
     comb::Program<int, bool> p =
-        lit(4) >>
+        comb::entry_
+        >> 4
+        >>
         comb::if_(fun)
         [
-            lit(10) >>
-            lit(15)
+            comb::entry_
+            >> 10
+            >> 15
             ]
         [
-            lit(-10) >>
-            lit(-15)
-            ] >>
-        lit(20);
+            comb::entry_
+            >> -10
+            >> -15
+            ]
+        >> 20;
     
     comb::Program<int,bool>::Counter c1(p.getCounter());
 

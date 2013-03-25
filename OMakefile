@@ -6,4 +6,5 @@
 # LDFLAGS +=
 # INCLUDES +=
 
-.SUBDIRS: Program
+.SUBDIRS: src test
+
