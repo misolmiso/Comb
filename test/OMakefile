@@ -1,4 +1,4 @@
-SRCS = test_main base if while
+SRCS = test_main base if while method
 TARGET = test$(EXE)
 
 INCLUDES += ../include/
