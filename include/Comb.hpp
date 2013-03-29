@@ -6,3 +6,4 @@
 #include "routine/Sequence.hpp"
 #include "routine/If.hpp"
 #include "routine/While.hpp"
+#include "routine/Method.hpp"

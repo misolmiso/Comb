@@ -94,6 +94,12 @@ public:
             v_.push_back(a);
         }
 
+    void add(const Contents & cont)
+        {
+            std::copy(cont.v_.begin(), cont.v_.end(), std::back_inserter(v_));
+        }
+            
+    
     C & operator[](const Index & i)
         {
             return v_[i.getContentsIndex()];
@@ -118,6 +124,11 @@ public:
     void push_back(const func_type & a)
         {
             v_.push_back(a);
+        }
+
+    void add(const Links & cont)
+        {
+            std::copy(cont.v_.begin(), cont.v_.end(), std::back_inserter(v_));
         }
 
     func_type & operator[](const Index & i)
