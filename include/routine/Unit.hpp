@@ -37,13 +37,13 @@ public:
         {}
 
     template <typename D>
-    inline void storeData(Contents<D> & cont) const
+    inline void storeDataImpl(Contents<D> & cont) const
         {
             cont.push_back(*(static_cast<const C * const>(UnitContent::get())));
         }
 
     template <typename A>
-    inline void storeLink(Links<A> & cont) const
+    inline void storeLinkImpl(Links<A> & cont) const
         {
             cont.push_back(UnitLink());
         }

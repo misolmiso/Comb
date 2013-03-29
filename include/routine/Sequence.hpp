@@ -32,14 +32,14 @@ public:
         {}
 
     template <typename D>
-    inline void storeData(Contents<D> & cont) const
+    inline void storeDataImpl(Contents<D> & cont) const
         {
             f_.storeData(cont);
             g_.storeData(cont);
         }
 
     template <typename A>
-    inline void storeLink(Links<A> & cont) const
+    inline void storeLinkImpl(Links<A> & cont) const
         {
             f_.storeLink(cont);
             g_.storeLink(cont);

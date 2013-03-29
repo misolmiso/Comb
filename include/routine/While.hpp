@@ -35,13 +35,13 @@ public:
         }
     
     template <typename D>
-    inline void storeData(Contents<D> & cont) const
+    inline void storeDataImpl(Contents<D> & cont) const
         {
             r_.storeData(cont);
         }
 
     template <typename A>
-    inline void storeLink(Links<A> & cont) const
+    inline void storeLinkImpl(Links<A> & cont) const
         {
             cont.push_back(ConditionJumpLink<A, true>(pred_, r_.getContentsSize(), r_.getLinksSize() + 1));
             r_.storeLink(cont);

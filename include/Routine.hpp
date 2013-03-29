@@ -31,13 +31,13 @@ public:
     template <typename D>
     inline void storeData(Contents<D> & cont) const
         {
-            static_cast<const Derived*>(this)->storeData(cont);
+            static_cast<const Derived*>(this)->storeDataImpl(cont);
         }
 
     template <typename A>
     inline void storeLink(Links<A> & cont) const
         {
-            static_cast<const Derived*>(this)->storeLink(cont);
+            static_cast<const Derived*>(this)->storeLinkImpl(cont);
         }
 };
 
