@@ -68,17 +68,11 @@ BOOST_AUTO_TEST_CASE(nest)
             >> 5
             ]
         >> 6;
-    
+
     comb::Program<int,bool>::Counter c1(p.getCounter());
 
-    c1.advance(false);
+    c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 1);
-    
-    c1.advance(true);
-    BOOST_CHECK_EQUAL(*c1, 2);
-
-    c1.advance(true);
-    BOOST_CHECK_EQUAL(*c1, 3);
 
     c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 2);
@@ -109,7 +103,5 @@ BOOST_AUTO_TEST_CASE(nest)
 
     BOOST_CHECK_THROW(c1.advance(true), const char *);
 }
-
-
 
 BOOST_AUTO_TEST_SUITE_END() // Method

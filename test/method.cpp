@@ -49,8 +49,6 @@ BOOST_AUTO_TEST_CASE(single)
 
 }
 
-
-
 BOOST_AUTO_TEST_CASE(multi)
 {
     comb::Method<int, bool> m1 =
