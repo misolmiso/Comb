@@ -151,6 +151,7 @@ BOOST_AUTO_TEST_CASE(if_else)
             >> 10
             >> 15
             ]
+        .else_
         [
             comb::entry_
             >> -10
@@ -163,6 +164,7 @@ BOOST_AUTO_TEST_CASE(if_else)
             >> 30
             >> 45
             ]
+        .else_
         [
             comb::entry_
             >> -30

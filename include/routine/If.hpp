@@ -59,23 +59,36 @@ class If_
     
     const Pred & pred_;
 
+    class Else_
+    {
+        const If_ & parent_;
+
+    public:
+        Else_(const If_ & parent)
+            : parent_(parent)
+            {}
+        
+        template <typename Rf>
+        IfElse_<R, Rf, Pred> operator[](const Routine<Rf> & rf)
+            {
+                return IfElse_<R, Rf, Pred>(parent_.r_, rf, parent_.pred_);
+            }
+    };
+
 public:
+    Else_ else_;
+
+    
     explicit If_(
         const Routine<R> & r,
         const Pred & pred
         )
         : Routine<If_<R, Pred> >(r.getContentsSize(), r.getLinksSize() + 1),
           r_(static_cast<const R &>(r)),
-          pred_(pred)
+          pred_(pred),
+          else_(*this)
         {}
 
-
-    template <typename Rf>
-    IfElse_<R, Rf, Pred> operator[](const Routine<Rf> & rf)
-        {
-            return IfElse_<R, Rf, Pred>(r_, rf, pred_);
-        }
-    
     template <typename D>
     inline void storeDataImpl(Contents<D> & cont) const
         {
