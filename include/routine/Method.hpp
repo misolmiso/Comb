@@ -3,8 +3,8 @@
 #include <algorithm>
 #include <iterator>
 
-#include "Link.hpp"
-#include "Routine.hpp"
+#include "../Link.hpp"
+#include "../Routine.hpp"
 
 namespace comb
 {
@@ -39,3 +39,4 @@ namespace comb
             }
     };
 }
+
