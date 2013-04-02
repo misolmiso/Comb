@@ -4,6 +4,8 @@
 #include <iostream>
 #include <stack>
 
+#include <stdexcept>
+
 #include <boost/utility.hpp>
 #include <boost/function.hpp>
 #include <boost/call_traits.hpp>
@@ -59,6 +61,10 @@ public:
         : contents_index_(-1), link_index_(0)
         {}
 
+    Index(const int contents_index, const int link_index)
+        : contents_index_(contents_index), link_index_(link_index)
+        {}
+
     const bool advance(const Distance & d)
         {
             contents_index_ += d.getContentsDistance();
@@ -104,6 +110,8 @@ public:
     
     C & operator[](const Index & i)
         {
+            if (i.getContentsIndex() >= v_.size())
+                throw std::out_of_range("comb::Program::counter operator* range_check");
             return v_[i.getContentsIndex()];
         }
 };
@@ -114,6 +122,38 @@ class Links
 public:
     typedef typename boost::call_traits<A>::param_type func_param_type;
     typedef typename boost::function<const Distance(CounterCondition&, func_param_type)> func_type;
+
+private:
+    std::vector<func_type> v_;
+
+public:
+    explicit Links(size_t size)
+        : v_()
+        {}
+
+    void push_back(const func_type & a)
+        {
+            v_.push_back(a);
+        }
+
+    void add(const Links & cont)
+        {
+            std::copy(cont.v_.begin(), cont.v_.end(), std::back_inserter(v_));
+        }
+
+    func_type & operator[](const Index & i)
+        {
+            if (i.getLinkIndex() >= v_.size())
+                throw std::out_of_range("comb::Program::counter advance range_check");
+            return v_[i.getLinkIndex()];
+        }
+};
+
+template <>
+class Links<void>
+{
+public:
+    typedef typename boost::function<const Distance(CounterCondition&)> func_type;
 
 private:
     std::vector<func_type> v_;

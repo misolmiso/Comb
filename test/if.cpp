@@ -28,7 +28,8 @@ BOOST_AUTO_TEST_CASE(single)
     c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 20);
 
-    BOOST_CHECK_THROW(c1.advance(true), const char *);
+    c1.advance(true);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
 
     comb::Program<int,bool>::Counter c2(p.getCounter());
 
@@ -38,8 +39,8 @@ BOOST_AUTO_TEST_CASE(single)
     c2.advance(false);
     BOOST_CHECK_EQUAL(*c2, 20);
 
-    BOOST_CHECK_THROW(c2.advance(false), const char *);
-    BOOST_CHECK_EQUAL(*c2, 20);
+    c2.advance(false);
+    BOOST_CHECK_THROW(*c2, std::out_of_range);
 }
 
 
@@ -71,7 +72,8 @@ BOOST_AUTO_TEST_CASE(multi)
     c1.advance(false);
     BOOST_CHECK_EQUAL(*c1, 20);
 
-    BOOST_CHECK_THROW(c1.advance(true), const char *);
+    c1.advance(true);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
 
     comb::Program<int,bool>::Counter c2(p.getCounter());
     
@@ -81,7 +83,8 @@ BOOST_AUTO_TEST_CASE(multi)
     c2.advance(false);
     BOOST_CHECK_EQUAL(*c2, 20);
 
-    BOOST_CHECK_THROW(c2.advance(true), const char *);
+    c2.advance(true);
+    BOOST_CHECK_THROW(*c2, std::out_of_range);
 }
 
 BOOST_AUTO_TEST_CASE(nest)
@@ -112,7 +115,8 @@ BOOST_AUTO_TEST_CASE(nest)
     c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 20);
 
-    BOOST_CHECK_THROW(c1.advance(true), const char *);
+    c1.advance(true);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
 
     comb::Program<int,bool>::Counter c2(p.getCounter());
     
@@ -122,7 +126,8 @@ BOOST_AUTO_TEST_CASE(nest)
     c2.advance(false);
     BOOST_CHECK_EQUAL(*c2, 20);
 
-    BOOST_CHECK_THROW(c2.advance(true), const char *);
+    c2.advance(true);
+    BOOST_CHECK_THROW(*c2, std::out_of_range);
 
     comb::Program<int,bool>::Counter c3(p.getCounter());
     
@@ -135,7 +140,8 @@ BOOST_AUTO_TEST_CASE(nest)
     c3.advance(false);
     BOOST_CHECK_EQUAL(*c3, 20);
 
-    BOOST_CHECK_THROW(c3.advance(true), const char *);
+    c3.advance(true);
+    BOOST_CHECK_THROW(*c3, std::out_of_range);
 }
 
 
@@ -192,7 +198,8 @@ BOOST_AUTO_TEST_CASE(if_else)
     c1.advance(true);
     BOOST_CHECK_EQUAL(*c1, 20);
 
-    BOOST_CHECK_THROW(c1.advance(true), const char *);
+    c1.advance(true);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
 }
 
 

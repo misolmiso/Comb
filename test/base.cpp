@@ -24,7 +24,8 @@ BOOST_AUTO_TEST_CASE(lit)
     c.advance(true);
     BOOST_CHECK_EQUAL(*c, 10);
 
-    BOOST_CHECK_THROW(c.advance(true), const char *);
+    c.advance(true);
+    BOOST_CHECK_THROW(*c, std::out_of_range);
 }
 
 
@@ -44,7 +45,8 @@ BOOST_AUTO_TEST_CASE(entry)
     c.advance(true);
     BOOST_CHECK_EQUAL(*c, 10);
 
-    BOOST_CHECK_THROW(c.advance(true), const char *);
+    c.advance(true);
+    BOOST_CHECK_THROW(*c, std::out_of_range);
 }
 
 

@@ -38,8 +38,8 @@ BOOST_AUTO_TEST_CASE(single)
     c1.advance(false);
     BOOST_CHECK_EQUAL(*c1, 40);
     
-    BOOST_CHECK_THROW(c1.advance(false), const char *);
-
+    c1.advance(false);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
 }
 
 BOOST_AUTO_TEST_CASE(nest)
@@ -106,7 +106,8 @@ BOOST_AUTO_TEST_CASE(nest)
     c1.advance(false);
     BOOST_CHECK_EQUAL(*c1, 6);
 
-    BOOST_CHECK_THROW(c1.advance(true), const char *);
+    c1.advance(false);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
 }
 
 BOOST_AUTO_TEST_SUITE_END() // Times
