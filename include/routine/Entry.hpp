@@ -12,11 +12,11 @@ namespace comb
             {}
         
         template <typename D>
-        inline void storeData(Contents<D> & cont) const
+        inline void storeDataImpl(Contents<D> & cont) const
             {}
 
         template <typename A>
-        inline void storeLink(Links<A> & cont) const
+        inline void storeLinkImpl(Links<A> & cont) const
             {}
     } entry_;
 }
