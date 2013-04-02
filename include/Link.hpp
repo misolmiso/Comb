@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include <stack>
 
 #include <boost/utility.hpp>
 #include <boost/function.hpp>
@@ -17,6 +18,7 @@ class Contents;
 template <typename A>
 class Links;
 
+struct CounterCondition;
 
 class Distance
 {
@@ -111,7 +113,7 @@ class Links
 {
 public:
     typedef typename boost::call_traits<A>::param_type func_param_type;
-    typedef typename boost::function<const Distance(func_param_type)> func_type;
+    typedef typename boost::function<const Distance(CounterCondition&, func_param_type)> func_type;
 
 private:
     std::vector<func_type> v_;
@@ -135,4 +137,10 @@ public:
         {
             return v_[i.getLinkIndex()];
         }
+};
+
+
+struct CounterCondition
+{
+    std::stack<unsigned> times_counter;
 };

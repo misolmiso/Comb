@@ -18,7 +18,7 @@ public:
 
 struct UnitLink
 {
-    Distance operator()(...) const
+    Distance operator()(CounterCondition&, ...) const
         {
             return Distance(false, 1, 1);
         }

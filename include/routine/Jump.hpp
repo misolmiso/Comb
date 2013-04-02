@@ -13,7 +13,7 @@ public:
           links_distance_(links_distance)
         {}
     
-    Distance operator()(...) const
+    Distance operator()(CounterCondition&, ...) const
         {
             return Distance(true, contents_distance_, links_distance_ + 1);
         }
@@ -39,7 +39,7 @@ public:
         {}
 
         
-    Distance operator()(typename Links<Arg>::func_param_type a)
+    Distance operator()(CounterCondition&, typename Links<Arg>::func_param_type a)
         {
             return pred_(a) != InvertFlag ?
                 Distance(true, contents_size_, links_size_ + 1) :

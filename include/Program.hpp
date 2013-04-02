@@ -6,7 +6,7 @@
 
 struct ExitLink
 {
-    Distance operator()(...) const
+    Distance operator()(CounterCondition&, ...) const
     {
         throw "exit";
     }
@@ -37,6 +37,7 @@ namespace comb
         {
             Contents<Dat> & contents_;
             Links<Arg>  & links_;
+            CounterCondition condition_;
             Index i_;
 
         public:
@@ -57,7 +58,7 @@ namespace comb
 
             void advance(typename Links<Arg>::func_param_type a)
                 {
-                    while (i_.advance(links_[i_](a))){
+                    while (i_.advance(links_[i_](condition_, a))){
                     }
                 }
         };
