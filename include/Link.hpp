@@ -175,6 +175,8 @@ public:
 
     func_type & operator[](const Index & i)
         {
+            if (i.getLinkIndex() >= v_.size())
+                throw std::out_of_range("comb::Program::counter advance range_check");
             return v_[i.getLinkIndex()];
         }
 };

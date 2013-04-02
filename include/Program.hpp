@@ -1,6 +1,7 @@
 #pragma once
 
 #include <boost/iterator/iterator_facade.hpp>
+#include <boost/operators.hpp>
 
 #include "Link.hpp"
 #include "Routine.hpp"
@@ -22,23 +23,9 @@ namespace comb
     template <typename Dat, typename Arg>
     class Program
     {
-        Contents<Dat> contents_;
-        Links<Arg> links_;
-
-    
     public:
-        template <class R>
-        Program(const Routine<R> & r)
-            : contents_(r.getContentsSize()),
-              links_(r.getLinksSize())
-            {
-                r.storeData(contents_);
-                r.storeLink(links_);
-                links_.push_back(ExitLink());
-            }
-
-    
         class Counter
+            : boost::operators<Program<Dat, Arg>::Counter>
         {
             Contents<Dat> & contents_;
             Links<Arg>  & links_;
@@ -52,11 +39,24 @@ namespace comb
                 : contents_(p.contents_), links_(p.links_)
                 {}
 
-            Counter(const Program<Dat,Arg>::Counter &c)
+            Counter(const Program<Dat, Arg>::Counter &c)
                 : contents_(c.contents_), links_(c.links_), i_(c.i_)
                 {}
 
-            Dat & operator*()
+            static
+            const Program<Dat, Arg>::Counter
+            end(
+                Program & p,
+                const Index & i
+                )
+                {
+                    Program<Dat, Arg>::Counter temp(p);
+                    temp.i_ = i;
+                    return temp;
+                }
+
+            
+            Dat & operator*() const
                 {
                     return contents_[i_];
                 }
@@ -66,13 +66,40 @@ namespace comb
                     while (i_.advance(links_[i_](condition_, a))){
                     }
                 }
+
+            bool operator==(const Program<Dat, Arg>::Counter &c) const
+                {
+                    return c.i_.getLinkIndex() == i_.getLinkIndex();
+                }
         };
 
-        
+    private:
+        Contents<Dat> contents_;
+        Links<Arg> links_;
+
+        Index end_index_;
+
+    
+    public:
+        template <class R>
+        Program(const Routine<R> & r)
+            : contents_(r.getContentsSize()),
+              links_(r.getLinksSize() + 1),
+              end_index_(r.getContentsSize() - 1, r.getLinksSize() + 1)
+            {
+                r.storeData(contents_);
+                r.storeLink(links_);
+                links_.push_back(ExitLink());
+            }
 
         Counter getCounter()
             {
                 return Counter(*this);
+            }
+
+        Counter getEndCounter()
+            {
+                return Counter::end(*this, end_index_);
             }
     };
 
@@ -81,6 +108,7 @@ namespace comb
     {
     public:
         class Counter
+            : boost::operators<Program<Dat, void>::Counter>
         {
             Contents<Dat> & contents_;
             Links<void>  & links_;
@@ -122,7 +150,7 @@ namespace comb
                     }
                 }
 
-            bool equal(const Program<Dat, void>::Counter &c) const
+            bool operator==(const Program<Dat, void>::Counter &c) const
                 {
                     return c.i_.getLinkIndex() == i_.getLinkIndex();
                 }
@@ -151,7 +179,7 @@ namespace comb
 
             bool equal(const Iterator& other) const
                 {
-                    return c_.equal(other.c_);
+                    return c_ == other.c_;
                 }
             
             Dat& dereference() const
@@ -184,6 +212,11 @@ namespace comb
                 return Counter(*this);
             }
 
+        Counter getEndCounter()
+            {
+                return Counter::end(*this, end_index_);
+            }
+        
         Iterator begin()
             {
                 Counter c(getCounter());

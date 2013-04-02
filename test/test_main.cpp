@@ -41,11 +41,38 @@ BOOST_AUTO_TEST_CASE(single)
     c1.advance();
     BOOST_CHECK_EQUAL(*c1, 30);
 
-    comb::Program<int>::Iterator it = p.begin();
+    BOOST_CHECK(c1 != p.getEndCounter());
     
+    c1.advance();
+    
+    BOOST_CHECK(c1 == p.getEndCounter());
+
+    BOOST_CHECK_THROW(c1.advance(), std::out_of_range);
+    BOOST_CHECK_THROW(*c1, std::out_of_range);
+    
+    comb::Program<int>::Iterator it = p.begin();
     comb::Program<int>::Iterator end = p.end();
 
-    std::copy(it, end, std::ostream_iterator<int>(std::cout, "\n"));
+    BOOST_CHECK_EQUAL(*it, 4);
+    
+    ++it;
+    BOOST_CHECK_EQUAL(*it, 10);
+
+    ++it;
+    BOOST_CHECK_EQUAL(*it, 20);
+
+    ++it;
+    BOOST_CHECK_EQUAL(*it, 10);
+
+    ++it;
+    BOOST_CHECK_EQUAL(*it, 20);
+
+    ++it;
+    BOOST_CHECK_EQUAL(*it, 30);
+
+    BOOST_CHECK(it != end);
+    ++it;
+    BOOST_CHECK(it == end);
 }
 
 
